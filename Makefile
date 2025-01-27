@@ -6,7 +6,7 @@
 #    By: iassil <iassil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/14 22:20:16 by iassil            #+#    #+#              #
-#    Updated: 2024/02/05 10:32:13 by iassil           ###   ########.fr        #
+#    Updated: 2025/01/27 20:20:52 by iassil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,14 +25,14 @@ SRC_BONUS=	./bonus/parse_bonus.c				./bonus/_instructions/push_bonus.c		./bonus/
 			./bonus/lib/ft_isdigit_bonus.c		./bonus/lib/ft_lstnew_bonus.c		./bonus/lib/ft_strlcpy_bonus.c			\
 			./bonus/_instructions/rotate_bonus.c		./bonus/_instructions/swap_bonus.c		./bonus/_instructions/reverse_rotate_bonus.c	\
 			./bonus/get_next_line/get_next_line_bonus.c							./bonus/get_next_line/get_next_line_utils_bonus.c	\
-			./bonus/lib/ft_cmp_bonus.c			./bonus/checker_utils_bonus.c	./bonus/checker_bonus.c
+			./bonus/lib/ft_cmp_bonus.c			./bonus/checker_utils_bonus.c	./bonus/checker_bonus.c ./bonus/utils/push_back.c
 
 OBJ=		$(SRC:.c=.o)
 OBJ_BONUS=	$(SRC_BONUS:.c=.o)
 
 ########### Variables
 CC=			cc
-CC+=		-Wall -Wextra -Werror
+CC+=		-Wall -Wextra -Werror -fsanitize=address -g
 NAME=		push_swap
 NAME_BONUS=	checker
 RM=			rm

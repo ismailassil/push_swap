@@ -6,7 +6,7 @@
 /*   By: iassil <iassil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 17:51:26 by iassil            #+#    #+#             */
-/*   Updated: 2024/02/08 13:12:35 by iassil           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:24:10 by iassil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ typedef struct s_node
 	struct s_node	*next;
 }					t_node;
 
+typedef struct s_instruction
+{
+	char					*content;
+	struct s_instruction	*next;
+}							t_instruction;
+
 typedef struct s_func
 {
 	char	*str;
@@ -38,6 +44,11 @@ typedef struct s_parse
 	bool	flag;
 	char	**ptr;
 }			t_parse;
+
+/** Linked List instructions **/
+void	ft_add_back(t_instruction **lst, t_instruction *_new);
+void	free_instructions(t_instruction **lst);
+void	ft_collect_instruction(t_instruction **inst, t_func *func, char *ptr);
 
 /** Linked List functions **/
 t_node	*ft_lstnew(int content);

@@ -6,7 +6,7 @@
 /*   By: iassil <iassil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:41:52 by iassil            #+#    #+#             */
-/*   Updated: 2024/02/08 13:13:39 by iassil           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:23:01 by iassil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,43 @@ void	ft_apply_instruction(char *str, t_func *func,
 		return ;
 }
 
+void	ft_collect_instruction(t_instruction **inst, t_func *func, char *ptr)
+{
+	int				i;
+	int				flag;
+	t_instruction	*new;
+
+	i = 0;
+	flag = 0;
+	new = NULL;
+	while (i <= 10)
+	{
+		if (ft_cmp(ptr, func[i].str, ft_strlen(ptr)) == 0
+			&& ft_strlen(ptr) == ft_strlen(func[i].str))
+		{
+			new = (t_instruction *)malloc(sizeof(t_instruction));
+			if (!new)
+				(write(2, "Error\n", 6), exit(EXIT_FAILURE));
+			new->content = ft_strdup(ptr);
+			new->next = NULL;
+			ft_add_back(inst, new);
+			flag = true;
+		}
+		i++;
+	}
+	if (flag == false)
+		(write(2, "Error\n", 6), free_instructions(inst), exit(EXIT_FAILURE));
+	return ;
+}
+
 void	ft_checker(t_node **stack_a, t_node **stack_b)
 {
-	char	*ptr;
-	int		stack_a_len;
-	t_func	func[11];	
+	char			*ptr;
+	int				stack_a_len;
+	t_func			func[11];
+	t_instruction	*instructions;
 
+	instructions = NULL;
 	ft_fill_func(func, stack_a, stack_b);
 	stack_a_len = ft_listlen(stack_a);
 	while (1)
@@ -49,8 +80,12 @@ void	ft_checker(t_node **stack_a, t_node **stack_b)
 		ptr = get_next_line(STDIN_FILENO);
 		if (!ptr)
 			break ;
-		ft_apply_instruction(ptr, func, stack_a, stack_b);
-		free(ptr);
+		(ft_collect_instruction(&instructions, func, ptr), free(ptr));
+	}
+	while (instructions)
+	{
+		ft_apply_instruction(instructions->content, func, stack_a, stack_b);
+		instructions = instructions->next;
 	}
 	if (ft_listlen(stack_a) == stack_a_len && ft_check_if_sorted(stack_a) == 0)
 		(write(1, "OK\n", 3),
