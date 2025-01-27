@@ -6,7 +6,7 @@
 /*   By: iassil <iassil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 20:23:11 by iassil            #+#    #+#             */
-/*   Updated: 2025/01/27 20:23:24 by iassil           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:28:30 by iassil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_add_back(t_instruction **lst, t_instruction *_new)
 	last->next = _new;
 }
 
-void	free_instructions(t_instruction **lst)
+void	free_inst(t_instruction **lst)
 {
 	t_instruction	*tmp;
 

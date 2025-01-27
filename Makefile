@@ -6,7 +6,7 @@
 #    By: iassil <iassil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/14 22:20:16 by iassil            #+#    #+#              #
-#    Updated: 2025/01/27 20:20:52 by iassil           ###   ########.fr        #
+#    Updated: 2025/01/27 20:25:52 by iassil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ OBJ_BONUS=	$(SRC_BONUS:.c=.o)
 
 ########### Variables
 CC=			cc
-CC+=		-Wall -Wextra -Werror -fsanitize=address -g
+CC+=		-Wall -Wextra -Werror
 NAME=		push_swap
 NAME_BONUS=	checker
 RM=			rm

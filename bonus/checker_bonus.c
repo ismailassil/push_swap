@@ -6,7 +6,7 @@
 /*   By: iassil <iassil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:41:52 by iassil            #+#    #+#             */
-/*   Updated: 2025/01/27 20:23:01 by iassil           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:28:30 by iassil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_collect_instruction(t_instruction **inst, t_func *func, char *ptr)
 		i++;
 	}
 	if (flag == false)
-		(write(2, "Error\n", 6), free_instructions(inst), exit(EXIT_FAILURE));
+		(write(2, "Error\n", 6), free_inst(inst), exit(EXIT_FAILURE));
 	return ;
 }
 
@@ -71,6 +71,7 @@ void	ft_checker(t_node **stack_a, t_node **stack_b)
 	int				stack_a_len;
 	t_func			func[11];
 	t_instruction	*instructions;
+	t_instruction	*tmp;
 
 	instructions = NULL;
 	ft_fill_func(func, stack_a, stack_b);
@@ -82,6 +83,7 @@ void	ft_checker(t_node **stack_a, t_node **stack_b)
 			break ;
 		(ft_collect_instruction(&instructions, func, ptr), free(ptr));
 	}
+	tmp = instructions;
 	while (instructions)
 	{
 		ft_apply_instruction(instructions->content, func, stack_a, stack_b);
@@ -89,9 +91,13 @@ void	ft_checker(t_node **stack_a, t_node **stack_b)
 	}
 	if (ft_listlen(stack_a) == stack_a_len && ft_check_if_sorted(stack_a) == 0)
 		(write(1, "OK\n", 3),
-			ft_fnodes(stack_a), ft_fnodes(stack_b), exit(EXIT_SUCCESS));
+			ft_fnodes(stack_a), ft_fnodes(stack_b), free_inst(&tmp), exit(EXIT_SUCCESS));
 	else
-		(write(1, "KO\n", 3), exit(EXIT_SUCCESS));
+		(write(1, "KO\n", 3), free_inst(&tmp), exit(EXIT_SUCCESS));
+}
+
+void leaks () {
+	system("leaks checker");
 }
 
 int	main(int ac, char **av)
@@ -100,6 +106,7 @@ int	main(int ac, char **av)
 	t_node	*stack_a;
 	t_node	*stack_b;
 
+	atexit(leaks);
 	stack_a = NULL;
 	stack_b = NULL;
 	if (ac == 1)
