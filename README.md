@@ -49,9 +49,11 @@ To get started with the **Push Swap Project**, follow these steps:
    ```
 
 3. **Run the program**:
+
    ```bash
    ./push_swap <list_of_integers>
    ```
+
    Replace `<list_of_integers>` with a space-separated list of integers to sort.
 
 ---
