@@ -6,7 +6,7 @@
 /*   By: iassil <iassil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:41:52 by iassil            #+#    #+#             */
-/*   Updated: 2025/01/27 20:28:30 by iassil           ###   ########.fr       */
+/*   Updated: 2025/01/28 08:02:18 by iassil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,43 @@ void	ft_collect_instruction(t_instruction **inst, t_func *func, char *ptr)
 	return ;
 }
 
+static void	ft_execute_instructions(t_instruction *instructions,
+	t_func *func, t_node **stack_a, t_node **stack_b)
+{
+	t_instruction	*temp;
+	int				stack_a_len;
+
+	temp = instructions;
+	stack_a_len = ft_listlen(stack_a);
+	while (temp)
+	{
+		ft_apply_instruction(temp->content, func, stack_a, stack_b);
+		temp = temp->next;
+	}
+	if (ft_listlen(stack_a) == stack_a_len && ft_check_if_sorted(stack_a) == 0)
+	{
+		write(1, "OK\n", 3);
+		ft_fnodes(stack_a);
+		ft_fnodes(stack_b);
+		free_inst(&instructions);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		write(1, "KO\n", 3);
+		free_inst(&instructions);
+		exit(EXIT_FAILURE);
+	}
+}
+
 void	ft_checker(t_node **stack_a, t_node **stack_b)
 {
 	char			*ptr;
-	int				stack_a_len;
 	t_func			func[11];
 	t_instruction	*instructions;
-	t_instruction	*tmp;
 
 	instructions = NULL;
 	ft_fill_func(func, stack_a, stack_b);
-	stack_a_len = ft_listlen(stack_a);
 	while (1)
 	{
 		ptr = get_next_line(STDIN_FILENO);
@@ -83,21 +109,7 @@ void	ft_checker(t_node **stack_a, t_node **stack_b)
 			break ;
 		(ft_collect_instruction(&instructions, func, ptr), free(ptr));
 	}
-	tmp = instructions;
-	while (instructions)
-	{
-		ft_apply_instruction(instructions->content, func, stack_a, stack_b);
-		instructions = instructions->next;
-	}
-	if (ft_listlen(stack_a) == stack_a_len && ft_check_if_sorted(stack_a) == 0)
-		(write(1, "OK\n", 3),
-			ft_fnodes(stack_a), ft_fnodes(stack_b), free_inst(&tmp), exit(EXIT_SUCCESS));
-	else
-		(write(1, "KO\n", 3), free_inst(&tmp), exit(EXIT_SUCCESS));
-}
-
-void leaks () {
-	system("leaks checker");
+	ft_execute_instructions(instructions, func, stack_a, stack_b);
 }
 
 int	main(int ac, char **av)
@@ -106,7 +118,6 @@ int	main(int ac, char **av)
 	t_node	*stack_a;
 	t_node	*stack_b;
 
-	atexit(leaks);
 	stack_a = NULL;
 	stack_b = NULL;
 	if (ac == 1)

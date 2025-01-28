@@ -1,4 +1,4 @@
-# Push Swap Project
+# Push Swap
 
 Welcome to the **Push Swap Project**! This project is part of the 42 School curriculum and focuses on sorting algorithms and stack manipulation. The goal is to sort a stack of integers using a limited set of operations and two stacks (`stack_a` and `stack_b`). The challenge lies in finding the most efficient sequence of operations to sort the stack with the fewest moves.
 
